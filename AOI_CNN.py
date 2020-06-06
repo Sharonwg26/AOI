@@ -57,7 +57,7 @@ x_train, x_test, y_train, y_test = train_test_split(data_x, data_y,test_size=0.2
 
 model=Sequential() # 建立模型
 # 第一層
-model.add(Conv2D(filters=32,kernel_size=(2,2),padding='same',input_shape=(512,512,1),activation='relu')) # 建立卷基層
+model.add(Conv2D(filters=32,kernel_size=(2,2),padding='same',input_shape=(56,56,1),activation='relu')) # 建立卷基層
 model.add(Dropout(0.25)) # Dropout隨機斷開輸入神經元，防止過度擬合，比例0.25
 model.add(MaxPooling2D(pool_size=(2,2))) # 建立池化層
 # 第二層
@@ -85,7 +85,7 @@ model.add(Dense(units=6,activation='softmax')) # 使用 softmax,將結果分類 
 model.summary()
 
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=['accuracy']) #損失函數、優化方法、成效衡量
-train_history=model.fit(x_train,y_train,batch_size=32,epochs=100,verbose=1,validation_split=0.1)
+train_history=model.fit(x_train,y_train,batch_size=16,epochs=150,verbose=1,validation_split=0.1)
 show_train(train_history,'accuracy','val_accuracy')
 show_train(train_history,'loss','val_loss')
 
