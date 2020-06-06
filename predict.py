@@ -4,20 +4,18 @@ import os
 from tensorflow.keras import models
 from PIL import Image
 
-
-train_csv="./aoi/train.csv"
 test_csv="./aoi/test.csv"
-train_path="./aoi/train_images"
 test_path="./aoi/test_images"
-totel=0
+
 def img_preprocess(datapath):
-    img_row,img_col=512,512 #定義圖片大小
+    img_row,img_col=56,56 #定義圖片大小
     count=0 # 紀錄圖片張數
     data_x=np.zeros((img_row,img_col)).reshape(1,img_row,img_col) #儲存圖片
     # 讀取aoi 資料夾內的檔案
     for root,dirs,files in os.walk(datapath):
         for f in files:
             fullpath=os.path.join(root,f) # 取得檔案路徑
+            img=img.resize((img_row,img_col),Image.NEAREST)
             img=Image.open(fullpath) # 開啟image 
             img=(np.array(img)/255).reshape(1,img_row,img_col) # 作正規化與reshape
             data_x=np.vstack((data_x,img))
@@ -42,3 +40,6 @@ for i in range(totel):
     varification_code.append(result_class[0])
     print('Digit {0}: Confidence=> {1}    Predict=> {2}'.format(i + 1, np.squeeze(confidences), np.squeeze(result_class)))
 print('Predicted varification code:', varification_code)
+with open(test_csv,'a+') as f :
+    w=csv.writer(f)
+    w.writecol(varification_code)
