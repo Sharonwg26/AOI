@@ -13,7 +13,7 @@ train_path="./aoi/train_images"
 
 # data_x(image) 與 data_y(label) 前處理
 def img_preprocess(datapath):
-    img_row,img_col=512,512 #定義圖片大小
+    img_row,img_col=56,56 #定義圖片大小
     data_x=np.zeros((img_row,img_col)).reshape(1,img_row,img_col) #儲存圖片
     count=0 # 紀錄圖片張數
     # 讀取aoi 資料夾內的檔案
@@ -21,6 +21,7 @@ def img_preprocess(datapath):
         for f in files:
             fullpath=os.path.join(root,f) # 取得檔案路徑
             img=Image.open(fullpath) # 開啟image 
+            img=img.resize((img_row,img_col),Image.NEAREST) #縮小圖片 56*56px
             img=(np.array(img)/255).reshape(1,img_row,img_col) # 作正規化與reshape
             data_x=np.vstack((data_x,img))
             count+=1
@@ -74,11 +75,13 @@ model.add(MaxPooling2D(pool_size=(2,2)))
 
 model.add(Flatten()) # 多維輸入一維化
 model.add(Dropout(0.1))
+model.add(Dense(2500,activation='relu')) 
+model.add(Dropout(0.1))
 model.add(Dense(1000,activation='relu')) 
 model.add(Dropout(0.1))
 model.add(Dense(500,activation='relu'))
 model.add(Dropout(0.1))
-model.add(Dense(units=6,activation='softmax')) # 使用 softmax,將結果分類 units=10,10類
+model.add(Dense(units=6,activation='softmax')) # 使用 softmax,將結果分類 units=6類
 model.summary()
 
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=['accuracy']) #損失函數、優化方法、成效衡量
