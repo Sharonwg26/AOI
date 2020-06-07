@@ -41,4 +41,4 @@ for i in range(totel):
     print('Digit {0}: Predict=> {1}'.format(i + 1, np.squeeze(result_class)))
 with open(test_csv,'a+') as f :
     w=csv.writer(f)
-    w.writecol(varification_code)
+    w.writerow(varification_code)
