@@ -38,8 +38,7 @@ for i in range(totel):
     confidences = model.predict(np.array([data_x[i]]), verbose=0)
     result_class = model.predict_classes(np.array([data_x[i]]), verbose=0)
     varification_code.append(result_class[0])
-    print('Digit {0}: Confidence=> {1}    Predict=> {2}'.format(i + 1, np.squeeze(confidences), np.squeeze(result_class)))
-print('Predicted varification code:', varification_code)
+    print('Digit {0}: Predict=> {1}'.format(i + 1, np.squeeze(result_class)))
 with open(test_csv,'a+') as f :
     w=csv.writer(f)
     w.writecol(varification_code)
