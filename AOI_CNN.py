@@ -68,28 +68,16 @@ model.add(MaxPooling2D(pool_size=(2,2)))
 model.add(Conv2D(filters=128,kernel_size=(2,2),padding='same',activation='relu'))
 model.add(Dropout(0.25))
 model.add(MaxPooling2D(pool_size=(2,2)))
-# 第四層
-model.add(Conv2D(filters=256,kernel_size=(2,2),padding='same',activation='relu'))
-model.add(Dropout(0.25))
-model.add(MaxPooling2D(pool_size=(2,2)))
 
 model.add(Flatten()) # 多維輸入一維化
-model.add(Dropout(0.1))
-model.add(Dense(2500,activation='relu')) 
-model.add(Dropout(0.1))
-model.add(Dense(1000,activation='relu')) 
-model.add(Dropout(0.1))
-model.add(Dense(500,activation='relu'))
 model.add(Dropout(0.1))
 model.add(Dense(units=6,activation='softmax')) # 使用 softmax,將結果分類 units=6類
 model.summary()
 
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=['accuracy']) #損失函數、優化方法、成效衡量
-train_history=model.fit(x_train,y_train,batch_size=16,epochs=150,verbose=1,validation_split=0.1)
+train_history=model.fit(x_train,y_train,batch_size=16,epochs=100,verbose=1,validation_split=0.1)
 show_train(train_history,'accuracy','val_accuracy')
 show_train(train_history,'loss','val_loss')
-
-# test_x,test_y=img_preprocess(test_path),csv_preprocess(test_csv)
 
 score = model.evaluate(x_test,y_test, verbose=0)
 print('Test loss:',score[0])
